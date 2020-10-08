@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Auth\LoginRequest;
 use App\Http\Requests\Api\Auth\RegistrationRequest;
 use App\Models\User;
 use Carbon\Carbon;
@@ -13,14 +14,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $request->validate([
-            'email'    => 'required',
-            'password' => 'required',
-        ]);
-
-        if (Auth::guard('web')->attempt(['email' => $request->email, 'password' => $request->password])) {
+        if (Auth::guard('web')->attempt(['email' => $request->email, 'password' => $request->password], $request->remember)) {
             $user              = Auth::user();
             $user->last_active = Carbon::now();
             $user->save();
@@ -29,7 +25,7 @@ class AuthController extends Controller
         }
 
         throw ValidationException::withMessages([
-            'email' => ['These credentials do not match our records.'],
+            'credentials' => trans('auth.failed'),
         ]);
     }
 
@@ -47,7 +43,7 @@ class AuthController extends Controller
         $user = new User($request->validated());
         $user->save();
 
-        return response()->json(['type' => 'success', 'message' => 'Успешно изпратихте вашето запитване!'], 200);
+        return responder()->success()->respond(Response::HTTP_CREATED);
     }
 
     public function logout()

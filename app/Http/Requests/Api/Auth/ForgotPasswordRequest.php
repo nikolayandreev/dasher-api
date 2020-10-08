@@ -6,7 +6,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class RegistrationRequest extends FormRequest
+class ForgotPasswordRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,11 +26,7 @@ class RegistrationRequest extends FormRequest
     public function rules()
     {
         return [
-            'first_name' => 'required|min:3',
-            'last_name'  => 'required|min:3',
-            'email'      => 'required|email|unique:users',
-            'password'   => 'required|confirmed',
-            // TODO: Decide on password validation min
+            'email'      => 'required|email',
         ];
     }
 
@@ -38,14 +34,9 @@ class RegistrationRequest extends FormRequest
     public function messages()
     {
         return [
-            'first_name.required' => 'Задължително поле!',
-            'first_name.min' => 'Поне 3 символа.',
-            'last_name.required' => 'Задължително поле!',
-            'last_name.min' => 'Поне 3 символа.',
             'email.required' => 'Задължително поле!',
             'email.email' => 'Невалиден Email адрес!',
-            'email.unique' => 'Този Email адрес е зает от друг потребител!',
-            'password.required' => 'Задължително поле!'
+            'email.exists' => 'Няма потребител с този Email адрес!',
         ];
     }
 

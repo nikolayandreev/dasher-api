@@ -18,6 +18,7 @@ Route::namespace('Api')
          Route::POST('/login', 'AuthController@login');
          Route::POST('/register', 'AuthController@register');
          Route::DELETE('/logout', 'AuthController@logout');
+         Route::POST('/forgot-password', 'PasswordsController@forgotPassword');
      });
 
 
