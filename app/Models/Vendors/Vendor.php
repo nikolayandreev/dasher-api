@@ -3,7 +3,6 @@
 namespace App\Models\Vendors;
 
 use App\Models\Client;
-use App\Models\Position;
 use App\Models\Reservations\Reservation;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
@@ -34,11 +33,6 @@ class Vendor extends Model
     public function clients()
     {
         return $this->hasMany(Client::class);
-    }
-
-    public function positions()
-    {
-        return $this->hasMany(Position::class);
     }
 
     public function reservations()
