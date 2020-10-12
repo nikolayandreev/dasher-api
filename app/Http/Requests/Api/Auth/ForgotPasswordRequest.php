@@ -36,7 +36,6 @@ class ForgotPasswordRequest extends FormRequest
         return [
             'email.required' => 'Задължително поле!',
             'email.email' => 'Невалиден Email адрес!',
-            'email.exists' => 'Няма потребител с този Email адрес!',
         ];
     }
 
