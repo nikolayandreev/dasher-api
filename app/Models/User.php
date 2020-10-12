@@ -57,9 +57,9 @@ class User extends Authenticatable
         ];
     }
 
-    public function vendor()
+    public function vendors()
     {
-        return $this->hasOne(Vendor::class, 'owner_id', 'id');
+        return $this->hasMany(Vendor::class, 'owner_id', 'id');
     }
 
     public function setPasswordAttribute($password)

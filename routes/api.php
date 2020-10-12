@@ -28,5 +28,7 @@ Route::middleware('auth:sanctum')
     ->namespace('Api')
     ->group(function () {
         Route::GET('user', 'AuthController@user');
+
+        Route::GET('/addresses/{vendor_id}', 'VendorsController@addresses');
     });
 

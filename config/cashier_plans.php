@@ -65,7 +65,7 @@ return [
             /**
              * The text to appear on the invoice.
              */
-            'description' => 'Monthly payment',
+            'description' => 'Dasher Старт',
 
             /**
              * The chain of subscription OrderItem preprocessors. These are called right before the Subscription's
@@ -77,13 +77,13 @@ return [
             //    PersistOrderItems::class,
             //],
         ],
-        'enterprise' => [
+        'pro' => [
             'amount' => [
                 'value' => '60.00',
                 'currency' => 'BGN'
             ],
             'interval' => '1 month',
-            'description' => 'Monthly payment'
+            'description' => 'Dasher Про'
         ]
     ],
 ];

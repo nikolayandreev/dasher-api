@@ -19,7 +19,7 @@ class Address extends Model
 
     public function area()
     {
-        return $this->hasOne(Area::class);
+        return $this->belongsTo(Area::class);
     }
 
     public function vendor()
