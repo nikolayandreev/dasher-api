@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
@@ -9,6 +10,8 @@ class VendorsController extends Controller
 {
     public function addresses($vendorId)
     {
-        return Vendor::where('id', $vendorId)->first()->address()->with('area')->get();
+        if ($vendorId) {
+            return Vendor::where('id', $vendorId)->first()->address()->with('area')->get();
+        }
     }
 }

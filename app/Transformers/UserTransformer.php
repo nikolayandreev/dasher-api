@@ -31,7 +31,7 @@ class UserTransformer extends Transformer
     /**
      * Transform the model.
      *
-     * @param  \App\AppModelsUser $appModelsUser
+     * @param User $user
      * @return array
      */
     public function transform(User $user)

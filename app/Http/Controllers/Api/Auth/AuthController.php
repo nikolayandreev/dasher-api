@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Auth\LoginRequest;
@@ -49,19 +49,28 @@ class AuthController extends Controller
         $user->assignRole('manager');
         $user->save();
 
-        try {
-            $result = $user->newSubscription('main', $request->subscription)
-                                 ->trialDays(14)
-                                 ->create();
-        } catch (InvalidMandateException $e) {
-            return responder()->error('#115', 'Invalid Mandate')->respond(Response::HTTP_UNPROCESSABLE_ENTITY);
-        } catch (PlanNotFoundException $e) {
-            return responder()->error('#117', 'Plan not Found!')->respond(Response::HTTP_UNPROCESSABLE_ENTITY);
-        } catch (\Throwable $e) {
-            return responder()->error('#119', $e)->respond(Response::HTTP_INTERNAL_SERVER_ERROR);
+        if (!$user->subscribed('main', $request->plan)) {
+            try {
+                $result = $user->newSubscriptionViaMollieCheckout('main', $request->subscription)
+                               ->trialDays(14)
+                               ->create();
+            } catch (InvalidMandateException $e) {
+                return responder()->error('#115', 'Invalid Mandate')->respond(Response::HTTP_UNPROCESSABLE_ENTITY);
+            } catch (PlanNotFoundException $e) {
+                return responder()->error('#117', 'Plan not Found!')->respond(Response::HTTP_UNPROCESSABLE_ENTITY);
+            } catch (\Throwable $e) {
+                return responder()->error('#119', $e)->respond(Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
+
+            return response()->json([
+                'status'   => 'success',
+                'redirect' => $result->payment()->getCheckoutUrl(),
+            ], Response::HTTP_OK);
         }
 
-        return response()->json($result, 200);
+
+        return responder()->error('#11233', 'Не може да бъде остановена връзка с Mollie!')
+                          ->respond(Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     public function logout()

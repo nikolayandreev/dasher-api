@@ -4,6 +4,7 @@ namespace App\Models\Services;
 
 use App\Models\Employees\Employee;
 use App\Models\Reservations\Services;
+use Cknow\Money\Money;
 use Illuminate\Database\Eloquent\Model;
 
 class Service extends Model
@@ -15,6 +16,7 @@ class Service extends Model
         'category_id',
         'name',
         'price',
+        'duration',
         'is_active',
     ];
 
@@ -35,5 +37,15 @@ class Service extends Model
     public function reservations()
     {
         return $this->hasMany(Services::class);
+    }
+
+    public function getPriceAttribute($value)
+    {
+        return Money::BGN($value);
+    }
+
+    public function setPriceAttribute($value)
+    {
+        $this->attributes['price'] = Money::parseByDecimal($value, 'BGN')->getAmount();
     }
 }
