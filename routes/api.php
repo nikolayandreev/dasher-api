@@ -40,6 +40,9 @@ Route::middleware('auth:sanctum')
 
              Route::resource('services', 'ServicesController')->only(['index', 'store', 'update', 'destroy']);
              Route::resource('service-categories', 'ServiceCategoriesController')->only('index', 'store', 'update', 'destroy');
+
+             Route::GET('clients/{vendor}/grid', 'ClientsController@index');
+             Route::resource('clients', 'ClientsController')->only( 'show', 'store', 'update', 'destroy');
          });
      });
 
