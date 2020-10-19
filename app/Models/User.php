@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Employees\Employee;
 use App\Models\Vendors\Vendor;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -45,7 +46,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function taxPercentage() {
+    public function taxPercentage()
+    {
         return 20;
     }
 
@@ -60,6 +62,12 @@ class User extends Authenticatable
     public function vendors()
     {
         return $this->hasMany(Vendor::class, 'owner_id', 'id');
+    }
+
+    public function employed()
+    {
+        //TODO!
+        return $this->hasManyThrough(Vendor::class, Employee::class);
     }
 
     public function setPasswordAttribute($password)

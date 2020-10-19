@@ -3,6 +3,7 @@
 namespace App\Models\Vendors;
 
 use App\Models\Client;
+use App\Models\Employees\Employee;
 use App\Models\Reservations\Reservation;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
@@ -18,6 +19,11 @@ class Vendor extends Model
     public function address()
     {
         return $this->belongsTo(Address::class);
+    }
+
+    public function employees()
+    {
+        return $this->hasMany(Employee::class, 'vendor_id', 'id');
     }
 
     public function owner()

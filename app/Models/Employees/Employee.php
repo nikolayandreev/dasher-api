@@ -21,7 +21,7 @@ class Employee extends Model
         'is_active' => 'boolean',
     ];
 
-    public function vendor()
+    public function vendors()
     {
         return $this->belongsTo(Vendor::class);
     }
