@@ -23,10 +23,10 @@ class Employee extends Model
 
     public function vendors()
     {
-        return $this->belongsTo(Vendor::class);
+        return $this->belongsTo(Vendor::class, 'vendor_id', 'id');
     }
 
-    public function profile()
+    public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }

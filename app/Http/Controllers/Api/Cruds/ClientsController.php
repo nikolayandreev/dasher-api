@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Client;
 use App\Transformers\Clients\ClientsCrudTransformer;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use League\Fractal\Pagination\Cursor;
 use League\Fractal\Pagination\DoctrinePaginatorAdapter;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
@@ -29,6 +30,7 @@ class ClientsController extends Controller
         })->when($filters['sex'], function ($q, $sex) {
             return $q->where('sex', $sex);
         })
+                         ->withCount('reservations')
                          ->orderBy($sort['by'], $sort['dir'])
                          ->orderBy('id', 'asc')
                          ->paginate($request->perPage);
@@ -37,9 +39,17 @@ class ClientsController extends Controller
                           ->meta([
                               'results' => [
                                   'from' => $results->firstItem(),
-                                  'to' => $results->lastItem(),
+                                  'to'   => $results->lastItem(),
                               ],
                           ])
-                          ->respond(200);
+                          ->respond(Response::HTTP_OK);
+    }
+
+    public function destroy(Client $client)
+    {
+        $client->delete();
+        $client->save();
+
+        return responder()->success()->respond(Response::HTTP_OK);
     }
 }

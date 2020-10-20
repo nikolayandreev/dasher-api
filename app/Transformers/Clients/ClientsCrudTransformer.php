@@ -13,7 +13,7 @@ class ClientsCrudTransformer extends Transformer
      * @var string[]
      */
     protected $relations = [
-        'reservations',
+//        'reservations',
     ];
 
     /**
@@ -22,7 +22,7 @@ class ClientsCrudTransformer extends Transformer
      * @var array
      */
     protected $load = [
-        'reservations',
+//        'reservations',
     ];
 
     /**

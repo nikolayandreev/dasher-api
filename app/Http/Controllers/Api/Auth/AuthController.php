@@ -45,7 +45,8 @@ class AuthController extends Controller
 
     public function register(RegistrationRequest $request)
     {
-        $user = new User($request->validated());
+        $user       = new User($request->validated());
+        $user->type = User::TYPE_OWNER;
         $user->assignRole('manager');
         $user->save();
 
@@ -62,10 +63,9 @@ class AuthController extends Controller
                 return responder()->error('#119', $e)->respond(Response::HTTP_INTERNAL_SERVER_ERROR);
             }
 
-            return response()->json([
-                'status'   => 'success',
+            return responder()->success([
                 'redirect' => $result->payment()->getCheckoutUrl(),
-            ], Response::HTTP_OK);
+            ])->respond(Response::HTTP_OK);
         }
 
 

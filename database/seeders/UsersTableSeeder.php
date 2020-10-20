@@ -33,12 +33,14 @@ class UsersTableSeeder extends Seeder
                                               'last_name'  => 'Георгиева',
                                               'email'      => 'owner@bookie.bg',
                                               'password'   => \Illuminate\Support\Facades\Hash::make('secret'),
+                                              'type' => User::TYPE_OWNER,
                                           ],
                                           [
                                               'first_name' => 'Мартин',
                                               'last_name'  => 'Вълчев',
                                               'email'      => 'employee@bookie.bg',
                                               'password'   => \Illuminate\Support\Facades\Hash::make('secret'),
+                                              'type' => User::TYPE_EMPLOYEE,
                                           ],
                                       ]);
 

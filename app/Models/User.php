@@ -15,6 +15,9 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable, Billable, HasRoles;
 
+    public const TYPE_OWNER = 1;
+    public const TYPE_EMPLOYEE = 2;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -25,6 +28,8 @@ class User extends Authenticatable
         'last_name',
         'email',
         'password',
+        'type',
+        'last_active',
     ];
 
     /**
@@ -64,14 +69,29 @@ class User extends Authenticatable
         return $this->hasMany(Vendor::class, 'owner_id', 'id');
     }
 
-    public function employed()
+    public function employee()
     {
-        //TODO!
-        return $this->hasManyThrough(Vendor::class, Employee::class);
+        return $this->hasMany(Employee::class, 'user_id', 'id');
     }
 
     public function setPasswordAttribute($password)
     {
         $this->attributes['password'] = bcrypt($password);
+    }
+
+    public function getVendors()
+    {
+        if (!$this->vendors()->exists()) {
+            return $this->employee()->first()->vendors()->get();
+        }
+
+        return $this->vendors()->get();
+    }
+    public function scopeEmployees($query) {
+        return $query->where('type', self::TYPE_EMPLOYEE);
+    }
+
+    public function scopeOwners($query) {
+        return $query->where('type', self::TYPE_OWNER);
     }
 }
