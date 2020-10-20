@@ -43,21 +43,21 @@ return [
          * The first payment webhook url is called by Mollie on first payment status updates. Can be overridden per
          * Plan. You can use either a relative or absolute url.
          */
-        'webhook_url' => 'webhooks/mollie/first-payment',
+        'webhook_url' => 'http://219fcb459b94.ngrok.io/first-payment',
 
         /**
          * A comma-separated list of allowed Mollie payment methods for the first payment. Make sure the methods are
          * enabled in the Mollie dashboard. Set to NULL to let Mollie handle this for you. Can be overridden per plan.
          * @example 'ideal,creditcard'
          */
-        'method' => null,
+        'method' => 'creditcard',
 
         /**
          * The default url the customer is redirected to after the Mollie first payment checkout screen. Can be
          * overridden per Plan. You can use a `{payment_id}` placeholder here to easily retrieve the Mollie payment in
          * your controller. Make sure you have set up a matching route.
          */
-        'redirect_url' => config('app.url'),
+        'redirect_url' => 'http://219fcb459b94.ngrok.io/',
 
         /**
          * The default amount for a first payment. Can be overridden per Plan.
@@ -74,13 +74,13 @@ return [
              * An ISO 4217 currency code. The currencies supported depend on the payment methods that are enabled on
              * your Mollie account.
              */
-            'currency' => 'EUR',
+            'currency' => 'BGN',
         ],
 
         /**
          * The default description for the first payment, visible on both the invoice and the customer bank records.
          */
-        'description' => 'Welcome to ' . config('app.name'),
+        'description' => 'Успешно се регистрирахте в Dasher.',
     ],
 
 ];

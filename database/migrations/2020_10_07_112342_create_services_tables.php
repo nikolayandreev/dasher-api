@@ -24,7 +24,8 @@ class CreateServicesTables extends Migration
             $table->bigInteger('vendor_id')->unsigned();
             $table->bigInteger('category_id')->unsigned()->nullable();
             $table->string('name');
-            $table->decimal('price', 9, 2);
+            $table->integer('price');
+            $table->integer('duration');
             $table->boolean('is_active');
             $table->timestamps();
 

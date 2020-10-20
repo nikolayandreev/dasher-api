@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Employees\Employee;
 use App\Models\Vendors\Vendor;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,6 +15,9 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable, Billable, HasRoles;
 
+    public const TYPE_OWNER = 1;
+    public const TYPE_EMPLOYEE = 2;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -24,6 +28,8 @@ class User extends Authenticatable
         'last_name',
         'email',
         'password',
+        'type',
+        'last_active',
     ];
 
     /**
@@ -45,7 +51,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function taxPercentage() {
+    public function taxPercentage()
+    {
         return 20;
     }
 
@@ -57,13 +64,34 @@ class User extends Authenticatable
         ];
     }
 
-    public function vendor()
+    public function vendors()
     {
-        return $this->hasOne(Vendor::class, 'owner_id', 'id');
+        return $this->hasMany(Vendor::class, 'owner_id', 'id');
+    }
+
+    public function employee()
+    {
+        return $this->hasMany(Employee::class, 'user_id', 'id');
     }
 
     public function setPasswordAttribute($password)
     {
         $this->attributes['password'] = bcrypt($password);
+    }
+
+    public function getVendors()
+    {
+        if (!$this->vendors()->exists()) {
+            return $this->employee()->first()->vendors()->get();
+        }
+
+        return $this->vendors()->get();
+    }
+    public function scopeEmployees($query) {
+        return $query->where('type', self::TYPE_EMPLOYEE);
+    }
+
+    public function scopeOwners($query) {
+        return $query->where('type', self::TYPE_OWNER);
     }
 }

@@ -15,6 +15,6 @@ class Area extends Model
 
     public function addresses()
     {
-        return $this->hasOne(Address::class);
+        return $this->hasMany(Address::class);
     }
 }
