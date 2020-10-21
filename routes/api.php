@@ -31,6 +31,7 @@ Route::middleware('auth:sanctum')
              Route::GET('user', 'AuthController@user');
          });
 
+         Route::GET('/vendor/{vendor}', 'VendorsController@show');
          Route::GET('/addresses/{vendor_id}', 'VendorsController@addresses');
 
          Route::namespace('Cruds')->group(function () {

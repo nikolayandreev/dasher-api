@@ -82,10 +82,10 @@ class User extends Authenticatable
     public function getVendors()
     {
         if (!$this->vendors()->exists()) {
-            return $this->employee()->first()->vendors()->get();
+            return $this->employee()->first()->vendors()->with('address')->get();
         }
 
-        return $this->vendors()->get();
+        return $this->vendors()->with('address')->get();
     }
     public function scopeEmployees($query) {
         return $query->where('type', self::TYPE_EMPLOYEE);
