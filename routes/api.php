@@ -31,19 +31,26 @@ Route::middleware('auth:sanctum')
              Route::GET('user', 'AuthController@user');
          });
 
-         Route::GET('/vendor/{vendor}', 'VendorsController@show');
-         Route::GET('/addresses/{vendor_id}', 'VendorsController@addresses');
-
          Route::namespace('Cruds')->group(function () {
              Route::resource('services', 'ServicesController')->except([
                  'create', 'show',
              ]);
 
              Route::resource('services', 'ServicesController')->only(['index', 'store', 'update', 'destroy']);
-             Route::resource('service-categories', 'ServiceCategoriesController')->only('index', 'store', 'update', 'destroy');
+             Route::resource('service-categories', 'ServiceCategoriesController')
+                  ->only('index', 'store', 'update', 'destroy');
 
              Route::GET('clients/{vendor}/grid', 'ClientsController@index');
-             Route::resource('clients', 'ClientsController')->only( 'show', 'store', 'update', 'destroy');
+             Route::resource('clients', 'ClientsController')->only('show', 'store', 'update', 'destroy');
+         });
+
+
+         Route::GET('areas', 'CoreController@areas');
+
+         Route::namespace('Vendors')->group(function () {
+             Route::POST('/vendor', 'VendorsController@store');
+             Route::GET('/vendor/{vendor}', 'VendorsController@show');
+             Route::GET('/addresses/{vendor_id}', 'VendorsController@addresses');
          });
      });
 

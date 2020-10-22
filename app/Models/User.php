@@ -15,7 +15,7 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable, Billable, HasRoles;
 
-    public const TYPE_OWNER = 1;
+    public const TYPE_OWNER    = 1;
     public const TYPE_EMPLOYEE = 2;
 
     /**
@@ -82,16 +82,23 @@ class User extends Authenticatable
     public function getVendors()
     {
         if (!$this->vendors()->exists()) {
-            return $this->employee()->first()->vendors()->with('address')->get();
+            if ($this->employee()->exists()) {
+                return $this->employee()->first()->vendors()->with('address')->get();
+            } else {
+                return false;
+            }
         }
 
         return $this->vendors()->with('address')->get();
     }
-    public function scopeEmployees($query) {
+
+    public function scopeEmployees($query)
+    {
         return $query->where('type', self::TYPE_EMPLOYEE);
     }
 
-    public function scopeOwners($query) {
+    public function scopeOwners($query)
+    {
         return $query->where('type', self::TYPE_OWNER);
     }
 }
