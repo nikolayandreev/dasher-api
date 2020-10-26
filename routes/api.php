@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
 Route::namespace('Api\Auth')
      ->group(function () {
          Route::POST('/login', 'AuthController@login');
@@ -49,7 +50,10 @@ Route::middleware('auth:sanctum')
 
          Route::namespace('Vendors')->group(function () {
              Route::POST('/vendor', 'VendorsController@store');
-             Route::GET('/vendor/{vendor}', 'VendorsController@show');
+             Route::POST('/vendor/schedule', 'VendorsController@storeSchedule');
+             Route::GET('/vendor/{id}/schedule', 'VendorsController@showSchedule');
+             Route::GET('/vendor/{id}', 'VendorsController@show');
+             Route::POST('/vendor/employee/invite', 'Api\Vendors\VendorsController@inviteEmployee');
              Route::GET('/addresses/{vendor_id}', 'VendorsController@addresses');
          });
      });

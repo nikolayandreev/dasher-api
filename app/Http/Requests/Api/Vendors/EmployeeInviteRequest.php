@@ -5,8 +5,10 @@ namespace App\Http\Requests\Api\Vendors;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Rule;
+use Spatie\Permission\Models\Role;
 
-class VendorAddressCreateRequest extends FormRequest
+class EmployeeInviteRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,10 +27,12 @@ class VendorAddressCreateRequest extends FormRequest
      */
     public function rules()
     {
+        $roles = Role::where('name', '!=', 'manager')->pluck('name');
+
         return [
-            'area_id'    => 'required|integer',
-            'street'     => 'required',
-            'additional' => 'nullable',
+            'vendor_id' => 'required|exists:vendors,id',
+            'email'     => 'required|email',
+            'role'      => 'required|' . Rule::in($roles),
         ];
     }
 
@@ -36,9 +40,11 @@ class VendorAddressCreateRequest extends FormRequest
     public function messages()
     {
         return [
-            'area_id.required' => 'Задължително поле!',
-            'area_id.integer'  => 'Трябва да съдържа само цифри!',
-            'street.required'  => 'Задължително поле!',
+            'vendor_id.required' => 'Задължително поле!',
+            'vendor_id.exists' => 'Няма такъв обект!',
+            'email.required' => 'Задължително поле!',
+            'email.email'    => 'Невалиден Email адрес!',
+            'role.required'  => 'Задължително поле!',
         ];
     }
 

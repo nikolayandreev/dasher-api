@@ -16,17 +16,12 @@ class CreateVendorsTables extends Migration
         Schema::create('vendors', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('owner_id')->unsigned();
-            $table->bigInteger('address_id')->unsigned();
             $table->string('name');
             $table->timestamps();
 
             $table->foreign('owner_id')
                   ->references('id')->on('users')
                   ->onDelete('cascade')->onUpdate('cascade');
-
-            $table->foreign('address_id')
-                  ->references('id')->on('vendor_addresses')
-                  ->onDelete('restrict')->onUpdate('cascade');
         });
     }
 

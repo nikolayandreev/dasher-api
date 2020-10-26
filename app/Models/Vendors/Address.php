@@ -12,6 +12,7 @@ class Address extends Model
     public $timestamps = false;
 
     protected $fillable = [
+        'vendor_id',
         'area_id',
         'street',
         'additional',
@@ -24,6 +25,6 @@ class Address extends Model
 
     public function vendor()
     {
-        return $this->hasOne(Vendor::class);
+        return $this->belongsTo(Vendor::class);
     }
 }

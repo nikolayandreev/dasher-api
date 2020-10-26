@@ -17,12 +17,14 @@ class CreateVendorSchedulesTable extends Migration
             $table->id();
             $table->bigInteger('vendor_id')->unsigned();
             $table->smallInteger('day_of_week');
-            $table->time('opens_at');
+            $table->time('opens_at', '');
             $table->time('closes_at');
 
             $table->foreign('vendor_id')
                   ->references('id')->on('vendors')
                   ->onDelete('cascade')->onUpdate('cascade');
+
+            $table->unique(['vendor_id', 'day_of_week']);
         });
     }
 
