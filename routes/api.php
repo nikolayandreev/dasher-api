@@ -16,12 +16,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::namespace('Api\Auth')
      ->group(function () {
-         Route::POST('/login', 'AuthController@login');
-         Route::POST('/register', 'AuthController@register');
-         Route::DELETE('/logout', 'AuthController@logout');
-         Route::POST('/password/forgot-password', 'PasswordsController@forgotPassword');
-         Route::POST('/password/check', 'PasswordsController@hashCheck');
-         Route::POST('/password/reset-password', 'PasswordsController@resetPassword');
+         Route::POST('login', 'AuthController@login');
+         Route::POST('register', 'AuthController@register');
+         Route::POST('password/forgot-password', 'PasswordsController@forgotPassword');
+         Route::POST('password/check', 'PasswordsController@hashCheck');
+         Route::POST('password/reset-password', 'PasswordsController@resetPassword');
      });
 
 
@@ -30,6 +29,7 @@ Route::middleware('auth:sanctum')
      ->group(function () {
          Route::namespace('Auth')->group(function () {
              Route::GET('user', 'AuthController@user');
+             Route::DELETE('logout', 'AuthController@logout');
          });
 
          Route::namespace('Cruds')->group(function () {

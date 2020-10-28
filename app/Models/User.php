@@ -5,15 +5,15 @@ namespace App\Models;
 use App\Models\Employees\Employee;
 use App\Models\Vendors\Vendor;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Cashier\Billable;
+use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, Billable, HasRoles;
+    use Notifiable, Billable, HasRoles, HasApiTokens;
 
     public const TYPE_OWNER    = 1;
     public const TYPE_EMPLOYEE = 2;
