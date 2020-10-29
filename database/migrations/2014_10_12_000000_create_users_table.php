@@ -23,11 +23,10 @@ class CreateUsersTable extends Migration
             $table->timestamp('last_active')->nullable();
             $table->timestamp('email_verified_at')->nullable();
 
-            $table->string('mollie_customer_id')->nullable();
-            $table->string('mollie_mandate_id')->nullable();
-            $table->decimal('tax_percentage', 6, 4)->default(0); // optional
-            $table->dateTime('trial_ends_at')->nullable(); // optional
-            $table->text('extra_billing_information')->nullable(); // optional
+            $table->string('stripe_id')->nullable()->index();
+            $table->string('card_brand')->nullable();
+            $table->string('card_last_four', 4)->nullable();
+            $table->timestamp('trial_ends_at')->nullable();
 
             $table->rememberToken();
             $table->timestamps();

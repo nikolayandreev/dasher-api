@@ -51,19 +51,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function taxPercentage()
-    {
-        return 20;
-    }
-
-    public function mollieCustomerFields()
-    {
-        return [
-            'email' => $this->email,
-            'name'  => $this->first_name . $this->last_name,
-        ];
-    }
-
     public function vendors()
     {
         return $this->hasMany(Vendor::class, 'owner_id', 'id');

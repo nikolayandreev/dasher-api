@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Api\Vendors;
+namespace App\Http\Requests\Api;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class VendorCreateRequest extends FormRequest
+class SubscriptionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,10 +26,8 @@ class VendorCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'         => 'required',
-            'area_id'      => 'required|integer',
-            'street'       => 'required',
-            'additional'   => 'nullable',
+            'plan'           => 'required|in:start,pro',
+            'payment_method' => 'required',
         ];
     }
 
@@ -37,10 +35,9 @@ class VendorCreateRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required'    => 'Задължително поле!',
-            'area_id.required' => 'Задължително поле!',
-            'area_id.integer'  => 'Трябва да съдържа само цифри!',
-            'street.required'  => 'Задължително поле!',
+            'payment_method' => 'Проблем с дебитната/кредитната карта!',
+            'plan.required'  => 'Проблем с избраният план!',
+            'plan.in'        => 'Избраният план е невалиден!',
         ];
     }
 

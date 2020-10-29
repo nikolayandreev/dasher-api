@@ -32,6 +32,9 @@ Route::middleware('auth:sanctum')
              Route::DELETE('logout', 'AuthController@logout');
          });
 
+         Route::GET('/subscriptions/init', 'SubscriptionsController@init');
+         Route::POST('/subscriptions', 'SubscriptionsController@store');
+
          Route::namespace('Cruds')->group(function () {
              Route::resource('services', 'ServicesController')->except([
                  'create', 'show',
