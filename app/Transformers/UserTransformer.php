@@ -37,6 +37,7 @@ class UserTransformer extends Transformer
             'last_name'   => (string)$user->last_name,
             'email'       => (string)$user->email,
             'last_active' => (string)$user->last_active,
+            'subscribed'  =>  (boolean) $user->subscribed('default'),
             'permissions' => $user->getAllPermissions()->pluck('name'),
             'roles'       => $user->roles()->pluck('name'),
             'vendors'     => $user->getVendors(),
