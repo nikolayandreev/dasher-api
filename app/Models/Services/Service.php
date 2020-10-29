@@ -4,7 +4,6 @@ namespace App\Models\Services;
 
 use App\Models\Employees\Employee;
 use App\Models\Reservations\Services;
-use Cknow\Money\Money;
 use Illuminate\Database\Eloquent\Model;
 
 class Service extends Model
@@ -41,11 +40,11 @@ class Service extends Model
 
     public function getPriceAttribute($value)
     {
-        return Money::BGN($value);
+        return $value * 100;
     }
 
     public function setPriceAttribute($value)
     {
-        $this->attributes['price'] = Money::parseByDecimal($value, 'BGN')->getAmount();
+        $this->attributes['price'] = $value / 100;
     }
 }

@@ -16,9 +16,13 @@ class RolesAndPermissionsSeeder extends Seeder
     public function run()
     {
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+        Permission::create(['name' => 'vendor.create']);
+        Permission::create(['name' => 'vendor.edit']);
+        Permission::create(['name' => 'vendor.renew']);
+        Permission::create(['name' => 'vendor.delete']);
 
-        Permission::create(['name' => 'reservations.view',]);
-        Permission::create(['name' => 'reservations.view.own',]);
+        Permission::create(['name' => 'reservations.view']);
+        Permission::create(['name' => 'reservations.view.own']);
         Permission::create(['name' => 'reservations.view.all']);
         Permission::create(['name' => 'reservations.create']);
         Permission::create(['name' => 'reservations.edit']);
